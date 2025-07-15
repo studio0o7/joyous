@@ -143,7 +143,6 @@ function StarWarsSection({
 // Main Star Wars Scroll Component
 export default function IndependentStarWarsScroll() {
   const [mounted, setMounted] = useState(false)
-  const [currentSection, setCurrentSection] = useState(0)
   const [sectionHeight, setSectionHeight] = useState(800)
   const [totalHeight, setTotalHeight] = useState(5600) // Default height to prevent footer flash
   const containerRef = useRef<HTMLDivElement>(null)
@@ -161,11 +160,7 @@ export default function IndependentStarWarsScroll() {
     restDelta: 0.001
   })
   
-  // Current section calculation
-  const currentSectionProgress = useTransform(
-    smoothProgress,
-    (value) => Math.floor(value * SECTIONS.length)
-  )
+
   
   // Handle window resize and calculate section height
   useEffect(() => {
@@ -192,16 +187,7 @@ export default function IndependentStarWarsScroll() {
     setMounted(true)
   }, [])
   
-  useEffect(() => {
-    const unsubscribe = currentSectionProgress.onChange((section) => {
-      setCurrentSection(Math.min(section, SECTIONS.length - 1))
-    })
-    
-    return unsubscribe
-  }, [currentSectionProgress])
-  
-  // Calculate the current section progress for active section detection
-  const currentSectionValue = smoothProgress.get() * SECTIONS.length
+
   
   // Don't render anything until mounted to prevent hydration issues
   if (!mounted) {
@@ -214,8 +200,8 @@ export default function IndependentStarWarsScroll() {
       <div className="fixed inset-0 z-20">
         {/* Render all sections with dynamic sizing */}
         {SECTIONS.map((section, index) => {
-          // Only render sections that are close to being active for performance
-          const isActive = Math.abs(index - currentSectionValue) < 2
+          // Render all sections for simplicity
+          const isActive = true
           
           return (
             <StarWarsSection
@@ -228,41 +214,6 @@ export default function IndependentStarWarsScroll() {
             />
           )
         })}
-        
-        {/* Section Progress Indicator - Only show after Hero */}
-        <motion.div 
-          className="fixed bottom-[3vh] md:bottom-[4vh] right-[5vw] md:right-[3vw] z-30 flex flex-col space-y-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: currentSection > 0 ? 1 : 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-        >
-          {SECTIONS.slice(1).map((_, index) => (
-            <motion.div
-              key={index}
-              className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-all duration-500 ${
-                index === currentSection - 1 
-                  ? 'bg-yellow-400 scale-125' 
-                  : 'bg-white/30'
-              }`}
-              whileHover={{ scale: 1.3 }}
-            />
-          ))}
-        </motion.div>
-        
-        {/* Current Section Number - Only show after Hero */}
-        <motion.div
-          className="fixed top-[2vh] md:top-[3vh] right-[5vw] md:right-[3vw] z-30 text-right"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: currentSection > 0 ? 1 : 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-        >
-          <div className="text-yellow-400 font-bold text-lg md:text-xl">
-            {String(currentSection).padStart(2, '0')}
-          </div>
-          <div className="text-white/40 text-xs">
-            of {String(SECTIONS.length - 1).padStart(2, '0')}
-          </div>
-        </motion.div>
       </div>
     </div>
   )

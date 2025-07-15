@@ -188,19 +188,19 @@ export default function Header() {
               </a>
               
               <motion.button 
-                className="group relative font-tenor-sans font-semibold transition-all duration-300 overflow-hidden mt-4 w-full max-w-xs"
+                className="group relative font-tenor-sans font-semibold transition-all duration-300 overflow-hidden mt-4"
                 style={{
                   background: `rgba(25,58,134,0.5)`,
                   border: `2px solid ${goldDark}`,
                   color: goldLight,
                   boxShadow: `
-                    0 5px 15px rgba(212,175,55,0.2),
-                    0 2px 8px rgba(0,0,0,0.3)
+                    0 3px 10px rgba(212,175,55,0.15),
+                    0 1px 4px rgba(0,0,0,0.2)
                   `,
                   textShadow: '0 1px 2px rgba(0,0,0,0.2)',
-                  padding: '0.8rem 1.5rem',
-                  fontSize: '1rem',
-                  borderRadius: '0.5rem'
+                  padding: '0.5rem 1rem',
+                  fontSize: '0.85rem',
+                  borderRadius: '0.375rem'
                 }}
                 onClick={handleNavLinkClick}
                 whileTap={{ scale: 0.98 }}
