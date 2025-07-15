@@ -1,102 +1,77 @@
-import Link from 'next/link';
-import { FiPhone, FiMapPin, FiMail, FiInstagram, FiFacebook, FiTwitter, FiScissors } from 'react-icons/fi';
+'use client'
+
+import React from 'react'
+import Image from 'next/image'
 
 export default function Footer() {
   return (
-    <footer className="bg-[var(--primary)] text-white">
-      <div className="container py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <div className="flex items-center mb-4 group">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-2 overflow-hidden">
-                <FiScissors size={20} className="text-[var(--primary)] transform -rotate-45" />
-              </div>
-              <div>
-                <span className="text-xl font-bold text-white tracking-tight">
-                  JAGADEESH
-                </span>
-                <span className="text-xl font-bold ml-2 text-[var(--secondary)] tracking-tight">
-                  HAIR STYLE
-                </span>
-              </div>
+    <footer className="relative z-50 bg-chess-blue text-white">
+      <div className="container mx-auto px-6 py-12">
+        <div className="grid md:grid-cols-4 gap-8">
+          {/* Logo and description */}
+          <div className="col-span-1">
+            <div className="flex items-center mb-4">
+              <Image
+                src="/logo.png"
+                alt="Joyous Chess Logo"
+                width={80}
+                height={40}
+                className="h-10 w-auto"
+              />
             </div>
-            <p className="mb-4">
-              Professional hair styling, beard cuts, and hair coloring services that make you look and feel your best.
+            <p className="text-white/80 text-sm leading-relaxed">
+              Building brilliant minds through joyful chess education. 
+              Join thousands of students on their journey from pawn to king.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-white hover:text-[var(--secondary)] transition-colors" aria-label="Instagram">
-                <FiInstagram size={20} />
-              </a>
-              <a href="#" className="text-white hover:text-[var(--secondary)] transition-colors" aria-label="Facebook">
-                <FiFacebook size={20} />
-              </a>
-              <a href="#" className="text-white hover:text-[var(--secondary)] transition-colors" aria-label="Twitter">
-                <FiTwitter size={20} />
-              </a>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
+            <ul className="space-y-2 text-white/80">
+              <li><a href="#programs" className="hover:text-white transition-colors">Programs</a></li>
+              <li><a href="#tournaments" className="hover:text-white transition-colors">Tournaments</a></li>
+              <li><a href="#coaches" className="hover:text-white transition-colors">Our Coaches</a></li>
+              <li><a href="#about" className="hover:text-white transition-colors">About Us</a></li>
+            </ul>
+          </div>
+
+          {/* Learning */}
+          <div>
+            <h3 className="font-semibold text-lg mb-4">Learning</h3>
+            <ul className="space-y-2 text-white/80">
+              <li><a href="#beginner" className="hover:text-white transition-colors">Beginner Classes</a></li>
+              <li><a href="#intermediate" className="hover:text-white transition-colors">Intermediate</a></li>
+              <li><a href="#advanced" className="hover:text-white transition-colors">Advanced</a></li>
+              <li><a href="#private" className="hover:text-white transition-colors">Private Lessons</a></li>
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h3 className="font-semibold text-lg mb-4">Contact Us</h3>
+            <div className="space-y-2 text-white/80 text-sm">
+              <p>Email: hello@joyouschess.com</p>
+              <p>Phone: +1 (555) 123-4567</p>
+              <p>Hours: Mon-Fri 9AM-6PM</p>
+              <div className="flex space-x-3 mt-4">
+                <a href="#" className="hover:text-white transition-colors">Facebook</a>
+                <a href="#" className="hover:text-white transition-colors">Twitter</a>
+                <a href="#" className="hover:text-white transition-colors">Instagram</a>
+              </div>
             </div>
-          </div>
-          
-          <div>
-            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/" className="hover:text-[var(--secondary)] transition-colors flex items-center">
-                  <span className="h-[2px] w-0 bg-[var(--secondary)] mr-0 transition-all duration-300 group-hover:w-3 group-hover:mr-2"></span>
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/services" className="hover:text-[var(--secondary)] transition-colors flex items-center">
-                  <span className="h-[2px] w-0 bg-[var(--secondary)] mr-0 transition-all duration-300 group-hover:w-3 group-hover:mr-2"></span>
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="hover:text-[var(--secondary)] transition-colors flex items-center">
-                  <span className="h-[2px] w-0 bg-[var(--secondary)] mr-0 transition-all duration-300 group-hover:w-3 group-hover:mr-2"></span>
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link href="/#gallery" className="hover:text-[var(--secondary)] transition-colors flex items-center">
-                  <span className="h-[2px] w-0 bg-[var(--secondary)] mr-0 transition-all duration-300 group-hover:w-3 group-hover:mr-2"></span>
-                  Gallery
-                </Link>
-              </li>
-              <li>
-                <Link href="/#contact" className="hover:text-[var(--secondary)] transition-colors flex items-center">
-                  <span className="h-[2px] w-0 bg-[var(--secondary)] mr-0 transition-all duration-300 group-hover:w-3 group-hover:mr-2"></span>
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="text-xl font-bold mb-4">Contact Us</h3>
-            <ul className="space-y-3">
-              <li className="flex items-center group">
-                <FiMapPin className="mr-2 text-[var(--secondary)]" />
-                <span className="group-hover:text-[var(--secondary)] transition-colors">123 Salon Street, Hyderabad</span>
-              </li>
-              <li className="flex items-center group">
-                <FiPhone className="mr-2 text-[var(--secondary)]" />
-                <a href="tel:+911234567890" className="hover:text-[var(--secondary)] transition-colors">+91 123 456 7890</a>
-              </li>
-              <li className="flex items-center group">
-                <FiMail className="mr-2 text-[var(--secondary)]" />
-                <a href="mailto:info@jagadeeshhair.com" className="hover:text-[var(--secondary)] transition-colors">
-                  info@jagadeeshhair.com
-                </a>
-              </li>
-            </ul>
           </div>
         </div>
-        
-        <div className="border-t border-gray-700 mt-8 pt-8 text-center">
-          <p>&copy; {new Date().getFullYear()} Jagadeesh Hair Style. All rights reserved.</p>
+
+        {/* Bottom bar */}
+        <div className="border-t border-white/20 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-white/60 text-sm">
+          <p>&copy; 2024 Joyous Chess Academy. All rights reserved.</p>
+          <div className="flex space-x-6 mt-4 md:mt-0">
+            <a href="#privacy" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#terms" className="hover:text-white transition-colors">Terms of Service</a>
+          </div>
         </div>
       </div>
     </footer>
-  );
+  )
 } 

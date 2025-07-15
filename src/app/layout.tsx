@@ -1,27 +1,36 @@
-import { Inter } from 'next/font/google';
-import './globals.css';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import type { Metadata } from 'next'
+import { Tenor_Sans, Karla } from 'next/font/google'
+import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] });
+const tenorSans = Tenor_Sans({
+  subsets: ['latin'],
+  weight: ['400'],
+  display: 'swap',
+  variable: '--font-tenor-sans'
+})
 
-export const metadata = {
-  title: 'Jagadeesh Hair Style',
-  description: 'Professional hair styling, beard cuts, and hair coloring services',
-};
+const karla = Karla({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800'],
+  display: 'swap',
+  variable: '--font-karla'
+})
+
+export const metadata: Metadata = {
+  title: 'Joyous Chess Academy - Building Brilliant Minds Through Joyful Chess',
+  description: 'A new kind of chess academy — live online classes, exciting tournaments, and joyful progress for every child.',
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+      <body className={`${tenorSans.variable} ${karla.variable} font-tenor-sans`}>
+        {children}
       </body>
     </html>
-  );
+  )
 } 

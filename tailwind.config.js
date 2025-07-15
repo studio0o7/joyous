@@ -120,6 +120,9 @@ module.exports = {
   },
   theme: {
     extend: {
+      height: {
+        '70': '17.5rem', // 70 * 4px = 280px or 17.5rem
+      },
       colors: {
         black: "#000000",
         white: "#ffffff",
@@ -138,7 +141,12 @@ module.exports = {
           900: "#111827",
         },
       },
+      fontFamily: {
+        "tenor-sans": ["var(--font-tenor-sans)"],
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide')
+  ],
 }; 

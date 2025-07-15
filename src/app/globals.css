@@ -2,66 +2,121 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary: #2a1111;
-  --secondary: #a36e33;
-  --accent: #d6a865;
-  --light-accent: #f0e4d0;
-  --background: #f8f7f5;
-  --foreground: #272220;
-  --card-bg: #ffffff;
-  --gradient-start: #2a1111;
-  --gradient-end: #5c2e1d;
+/* Root elements with smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
-@layer components {
-  .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
-  
-  .btn {
-    @apply px-6 py-3 rounded-md font-medium transition-all duration-200 text-center shadow-sm;
-  }
-  
-  .btn-primary {
-    @apply bg-[var(--primary)] text-white hover:bg-opacity-90 hover:translate-y-[-1px] hover:shadow-md;
-  }
-  
-  .btn-secondary {
-    @apply bg-[var(--secondary)] text-white hover:bg-opacity-90 hover:translate-y-[-1px] hover:shadow-md;
-  }
-  
-  .btn-outline {
-    @apply border-2 border-[var(--primary)] text-[var(--primary)] bg-transparent hover:bg-[var(--primary)] hover:text-white hover:translate-y-[-1px] hover:shadow-md;
-  }
-  
-  .section {
-    @apply py-16 md:py-24;
-  }
-  
-  .section-title {
-    @apply text-3xl md:text-4xl font-bold mb-12 text-center relative;
-  }
-  
-  .section-title::after {
-    content: "";
-    @apply absolute bottom-[-12px] left-1/2 w-24 h-1 bg-[var(--secondary)] transform -translate-x-1/2;
-  }
-  
-  .input-field {
-    @apply w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--secondary)] focus:border-transparent transition-all duration-200;
-  }
-  
-  .card {
-    @apply bg-[var(--card-bg)] rounded-lg shadow-md transition-all duration-200 hover:shadow-lg;
-  }
-  
-  .gradient-bg {
-    @apply bg-gradient-to-r from-[var(--gradient-start)] to-[var(--gradient-end)];
-  }
+/* Smooth scrolling for sections */
+.star-wars-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 215, 0, 0.8);
+}
+
+/* Chess colors */
+:root {
+  --chess-blue: #193A86;
+  --chess-red: #EC4957;
+  --chess-gold: #FFD700;
+}
+
+/* Utilities */
+.chess-blue {
+  color: var(--chess-blue);
+}
+
+.chess-red {
+  color: var(--chess-red);
+}
+
+.chess-gold {
+  color: var(--chess-gold);
+}
+
+.hover-lift {
+  transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+/* Hardware acceleration for smooth animations */
+.star-wars-transform {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Ensure no text selection during scroll */
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Bubble animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+.float-animation:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.float-animation:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.float-animation:nth-child(4) {
+  animation-delay: 1.5s;
+}
+
+/* 3D perspective for chessboard */
+.perspective-deep {
+  perspective: 1200px;
+  perspective-origin: center bottom;
+}
+
+/* Gradient text effect */
+.gradient-text {
+  background: linear-gradient(135deg, var(--chess-blue), var(--chess-red));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 } 

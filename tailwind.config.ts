@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'tenor-sans': ['var(--font-tenor-sans)', 'serif'],
+        'karla': ['var(--font-karla)', 'sans-serif'],
+      },
       spacing: {
         // This adds the px-6 utility and other spacing values
         '0': '0px',
@@ -26,6 +30,8 @@ const config: Config = {
         '32': '8rem',
       },
       colors: {
+        'chess-blue': '#193A86',
+        'chess-red': '#EC4957',
         black: "#000000",
         white: "#ffffff",
         green: {
