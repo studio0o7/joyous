@@ -2,6 +2,7 @@
 export { default as Chessboard3D } from './Chessboard3D'
 export { default as ChessBackground } from './ChessBackground'
 export { default as IndependentStarWarsScroll } from './IndependentStarWarsScroll'
+export { default as MobileSectionsLayout } from './MobileSectionsLayout'
 
 // Page sections
 export { default as HeroSection } from './HeroSection'

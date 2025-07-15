@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Tenor_Sans, Karla } from 'next/font/google'
 import './globals.css'
 
@@ -19,6 +19,13 @@ const karla = Karla({
 export const metadata: Metadata = {
   title: 'Joyous Chess Academy - Building Brilliant Minds Through Joyful Chess',
   description: 'A new kind of chess academy — live online classes, exciting tournaments, and joyful progress for every child.',
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 }
 
 export default function RootLayout({
