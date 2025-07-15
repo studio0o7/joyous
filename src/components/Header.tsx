@@ -77,9 +77,9 @@ export default function Header() {
               </a>
             </nav>
 
-            {/* CTA Button - Styled like the gold button in HeroSection */}
+            {/* CTA Button - Styled like the gold button in HeroSection - Hidden on mobile */}
             <motion.button 
-              className="group relative font-tenor-sans font-semibold transition-all duration-300 overflow-hidden pointer-events-auto"
+              className="hidden md:block group relative font-tenor-sans font-semibold transition-all duration-300 overflow-hidden pointer-events-auto"
               style={{
                 background: `rgba(25,58,134,0.3)`,
                 border: `2px solid ${goldDark}`,
