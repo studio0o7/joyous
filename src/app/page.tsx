@@ -77,9 +77,12 @@ export default function HomePage() {
         <ChessBackground />
       </div>
       
-      <div className="fixed inset-0 z-10" style={{ height: viewportHeight || '100vh' }}>
-        <Chessboard3D />
-      </div>
+      {/* 3D Chessboard - Only for desktop/tablet, not mobile */}
+      {!isMobile && (
+        <div className="fixed inset-0 z-10" style={{ height: viewportHeight || '100vh' }}>
+          <Chessboard3D />
+        </div>
+      )}
       
       {/* Content container with proper z-index layering */}
       <div className="relative z-20 w-full max-w-full overflow-hidden">
