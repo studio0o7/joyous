@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Anton, Lato } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 
 const anton = Anton({
@@ -47,6 +48,27 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${anton.variable} ${lato.variable} font-lato`}>
         {children}
+        <Script 
+          src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="netlify-identity-redirect"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (window.netlifyIdentity) {
+                window.netlifyIdentity.on("init", user => {
+                  if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                      document.location.href = "/admin/";
+                    });
+                  }
+                });
+              }
+            `,
+          }}
+        />
       </body>
     </html>
   )
