@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Joyous Chess Admin - Tournament Management</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  </head>
+  <body>
+    <!-- Include the script that builds the page and powers Decap CMS -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    
+    <!-- Custom styling for the CMS -->
+    <style>
+      :root {
+        --primary-color: #1E3A8A;
+        --secondary-color: #F43F5E;
+      }
+      
+      /* Custom branding */
+      .css-1t5lm8h-AppMainContainer {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      }
+      
+      /* Header styling */
+      .css-1ihb6xp-AppHeader {
+        background: var(--primary-color) !important;
+        box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
+      }
+      
+      /* Sidebar styling */
+      .css-1c1q00r-SidebarContainer {
+        background: white !important;
+        border-right: 1px solid #e2e8f0;
+      }
+      
+      /* Button styling */
+      .css-1c67g9c-StyledButton, .css-zze1px-StyledButton {
+        background: var(--secondary-color) !important;
+        border-color: var(--secondary-color) !important;
+      }
+      
+      .css-1c67g9c-StyledButton:hover, .css-zze1px-StyledButton:hover {
+        background: #E11D48 !important;
+        border-color: #E11D48 !important;
+      }
+    </style>
+    
+    <script>
+      // Custom configuration
+      CMS.init({
+        config: {
+          load_config_file: true,
+          display_url: window.location.origin,
+          logo_url: '/logo.png'
+        }
+      });
+      
+      // Custom preview styles for tournaments
+      CMS.registerPreviewStyle("/admin/preview.css");
+      
+      // Initialize Netlify Identity (if using Netlify)
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
+    </script>
+  </body>
+</html> 

@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lato:wght@300;400;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Root elements with smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+  /* Prevent horizontal overflow on mobile */
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+  /* Prevent zoom on mobile inputs */
+  touch-action: manipulation;
+}
+
+/* Mobile-specific overflow prevention */
+* {
+  box-sizing: border-box;
+}
+
+/* Prevent horizontal overflow on all containers */
+.mobile-container {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Mobile viewport fixes */
+@media (max-width: 767px) {
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+  
+  /* Ensure all sections respect mobile viewport */
+  section {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  /* Fix for mobile viewport height issues */
+  .mobile-vh-fix {
+    height: 100vh;
+    height: 100svh; /* Use small viewport height on supported browsers */
+  }
+}
+
+/* Smooth scrolling for sections */
+.star-wars-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 215, 0, 0.8);
+}
+
+/* Chess colors */
+:root {
+  --chess-blue: #193A86;
+  --chess-red: #EC4957;
+  --chess-gold: #FFD700;
+}
+
+/* Font families */
+.font-bebas-neue {
+  font-family: 'Bebas Neue', sans-serif !important;
+}
+
+.font-lato {
+  font-family: 'Lato', sans-serif !important;
+}
+
+/* Navigation link hover effect */
+.nav-link:hover {
+  color: #F43F5E !important;
+}
+
+/* Utilities */
+.chess-blue {
+  color: var(--chess-blue);
+}
+
+.chess-red {
+  color: var(--chess-red);
+}
+
+.chess-gold {
+  color: var(--chess-gold);
+}
+
+.hover-lift {
+  transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Hardware acceleration for smooth animations */
+.star-wars-transform {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Ensure no text selection during scroll */
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Bubble animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+.float-animation:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.float-animation:nth-child(3) {
+  animation-delay: 1s;
+}
+
+.float-animation:nth-child(4) {
+  animation-delay: 1.5s;
+}
+
+/* 3D perspective for chessboard */
+.perspective-deep {
+  perspective: 1200px;
+  perspective-origin: center bottom;
+}
+
+/* Gradient text effect */
+.gradient-text {
+  background: linear-gradient(135deg, var(--chess-blue), var(--chess-red));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========================================
+   PERFORMANCE OPTIMIZATIONS - PHASE 2
+   ======================================== */
+
+/* Animation keyframes for better performance */
+@keyframes infinite-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes counter-increment {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
+}
+
+/* Optimized scroll container */
+.scroll-container {
+  animation: infinite-scroll 20s linear infinite;
+  will-change: transform;
+  transform: translateZ(0); /* Force hardware acceleration */
+}
+
+.counter-animate {
+  animation: counter-increment 0.1s ease-out;
+}
+
+/* Performance hints for motion elements */
+.motion-element {
+  will-change: transform, opacity;
+  transform: translateZ(0); /* Force hardware acceleration */
+  backface-visibility: hidden; /* Prevent flickering */
+}
+
+.motion-scroll {
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Optimized testimonial cards */
+.testimonial-card {
+  will-change: transform;
+  transform: translateZ(0);
+  transition: transform 0.3s ease-out;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px) translateZ(0);
+}
+
+/* Form animation container */
+.form-animate {
+  will-change: opacity, transform;
+  transform: translateZ(0);
+}
+
+/* Smooth transitions for header */
+.header-transition {
+  will-change: background-color, transform;
+  transform: translateZ(0);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Floating animation for hero button */
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px) translateZ(0); 
+  }
+  50% { 
+    transform: translateY(-8px) translateZ(0); 
+  }
+}
+
+.float-button {
+  animation: float 3s ease-in-out infinite;
+  will-change: transform;
+  transform: translateZ(0);
+} 

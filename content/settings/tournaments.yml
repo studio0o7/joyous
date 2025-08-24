@@ -1,0 +1,30 @@
+defaultContactEmail: "tournaments@joyouschess.com"
+defaultPhone: "+91-98765-43210"
+registrationFormEndpoint: "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"
+termsAndConditions: |
+  ## Tournament Terms & Conditions
+
+  ### Registration
+  - Registration is mandatory for participation
+  - All details provided must be accurate
+  - Entry fees are non-refundable
+  - Registration closes on the specified deadline
+
+  ### Tournament Rules
+  - All games played according to FIDE rules
+  - Time controls as specified for each tournament
+  - Electronic devices prohibited in playing area
+  - Players must arrive 30 minutes before their games
+
+  ### Conduct
+  - Respectful behavior towards all participants
+  - Parents/guardians responsible for minor participants
+  - Tournament director decisions are final
+  - Zero tolerance for cheating or unsporting behavior
+
+  ### Liability
+  - Participants join at their own risk
+  - Organizers not liable for personal belongings
+  - Medical emergencies handled as per venue protocols
+
+  By registering, you accept these terms and conditions. 

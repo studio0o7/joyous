@@ -1,0 +1,207 @@
+backend:
+  name: github
+  repo: studio0o7/joyous
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: /auth
+
+# Alternative for manual GitHub setup (comment out the above if using this)
+# backend:
+#   name: github
+#   repo: your-username/joyouschess
+#   branch: main
+
+# Media and Public folders
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# Site configuration  
+site_url: https://joyouschess.netlify.app
+display_url: https://joyouschess.netlify.app
+logo_url: "/logo.png"
+
+# Content Collections
+collections:
+  - name: "tournaments"
+    label: "Tournaments"
+    label_singular: "Tournament"
+    folder: "content/tournaments"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "Full tournament name (e.g., Delhi State Chess Championship 2025)"
+
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+        pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', 'Slug must be lowercase with hyphens only']
+        hint: "URL-friendly version (e.g., delhi-state-championship-2025)"
+
+      - label: "Tournament Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Draft", value: "draft" }
+          - { label: "Published", value: "published" }
+        default: "draft"
+
+      - label: "Registration Status"
+        name: "registrationOpen"
+        widget: "boolean"
+        default: true
+        hint: "Toggle to open/close registration"
+
+      - label: "Start Date"
+        name: "dateStart"
+        widget: "date"
+        date_format: "YYYY-MM-DD"
+        format: "YYYY-MM-DD"
+
+      - label: "End Date"
+        name: "dateEnd"
+        widget: "date"
+        date_format: "YYYY-MM-DD"
+        format: "YYYY-MM-DD"
+
+      - label: "Registration Deadline"
+        name: "registrationDeadline"
+        widget: "date"
+        date_format: "YYYY-MM-DD"
+        format: "YYYY-MM-DD"
+
+      - label: "Location (City)"
+        name: "location"
+        widget: "string"
+        hint: "City, State/Country (e.g., New Delhi, India)"
+
+      - label: "Venue"
+        name: "venue"
+        widget: "string"
+        hint: "Full venue name and address"
+
+      - label: "Banner Image"
+        name: "heroImage"
+        widget: "image"
+        allow_multiple: false
+        hint: "Tournament banner image (recommended: 1200x400px)"
+
+      - label: "Short Description"
+        name: "description"
+        widget: "text"
+        hint: "Brief tournament description (1-2 sentences for cards and previews)"
+
+      - label: "Full Description"
+        name: "fullDescription"
+        widget: "markdown"
+        hint: "Detailed tournament information (shown on tournament detail page)"
+
+      - label: "Tournament Sections"
+        name: "sections"
+        widget: "list"
+        fields:
+          - label: "Section Name"
+            name: "name"
+            widget: "string"
+            hint: "e.g., Under-8, Under-12, Open"
+          - label: "Entry Fee"
+            name: "entryFee"
+            widget: "string"
+            hint: "e.g., ₹1,500"
+          - label: "Section Description"
+            name: "description"
+            widget: "text"
+            hint: "Age requirements or section details"
+
+      - label: "Time Control"
+        name: "timeControl"
+        widget: "string"
+        hint: "e.g., 90 minutes + 30 seconds increment per move"
+
+      - label: "Number of Rounds"
+        name: "rounds"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        max: 15
+
+      - label: "Prize Information"
+        name: "prizes"
+        widget: "string"
+        hint: "e.g., ₹50,000 for winner in Open category"
+
+      - label: "Payment Link (Optional)"
+        name: "paymentLink"
+        widget: "string"
+        required: false
+        hint: "Online payment URL (e.g., Razorpay link)"
+
+      - label: "Tournament Features"
+        name: "features"
+        widget: "list"
+        allow_add: true
+        required: false
+        fields:
+          - label: "Feature"
+            name: "feature"
+            widget: "string"
+
+      - label: "Contact Information"
+        name: "contact"
+        widget: "object"
+        required: false
+        fields:
+          - label: "Contact Person"
+            name: "person"
+            widget: "string"
+          - label: "Phone"
+            name: "phone"
+            widget: "string"
+          - label: "Email"
+            name: "email"
+            widget: "string"
+
+      - label: "Meta Description"
+        name: "metaDescription"
+        widget: "text"
+        required: false
+        hint: "SEO description for search engines"
+
+      - label: "Created Date"
+        name: "date"
+        widget: "datetime"
+        default: ""
+        date_format: "YYYY-MM-DD"
+        time_format: "HH:mm"
+        format: "YYYY-MM-DD HH:mm"
+
+  # Settings collection for global site settings
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "Tournament Settings"
+        name: "tournaments"
+        file: "content/settings/tournaments.yml"
+        fields:
+          - label: "Default Contact Email"
+            name: "defaultContactEmail"
+            widget: "string"
+          - label: "Default Phone"
+            name: "defaultPhone"
+            widget: "string"
+          - label: "Google Apps Script URL"
+            name: "registrationFormEndpoint"
+            widget: "string"
+            hint: "URL for form submissions"
+          - label: "Tournament Terms & Conditions"
+            name: "termsAndConditions"
+            widget: "markdown"
+
+# Editor configuration
+editor:
+  preview: true
+
+# Local development
+local_backend: false 
