@@ -3,9 +3,9 @@ import { getTournamentBySlug, getFallbackTournaments } from '@/lib/cms'
 import TournamentClient from './TournamentClient'
 
 interface TournamentPageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export default async function TournamentPage({ params }: TournamentPageProps) {
