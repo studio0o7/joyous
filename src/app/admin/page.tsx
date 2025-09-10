@@ -4,7 +4,8 @@ export default function AdminPage() {
       <script
         dangerouslySetInnerHTML={{
           __html: `
-            window.location.href = '/admin/index.html';
+            // Immediate redirect to actual CMS
+            window.location.replace('/admin/index.html');
           `,
         }}
       />
