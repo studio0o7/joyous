@@ -18,16 +18,16 @@ const Header = () => {
   const handleScroll = React.useCallback(() => {
     if (!ticking.current) {
       requestAnimationFrame(() => {
-        const isScrolled = window.scrollY > 60;
-        if (isScrolled !== scrolled) {
-          setScrolled(isScrolled);
-        }
+      const isScrolled = window.scrollY > 60;
+      if (isScrolled !== scrolled) {
+        setScrolled(isScrolled);
+      }
         ticking.current = false;
       });
       ticking.current = true;
     }
   }, [scrolled]);
-
+    
   React.useEffect(() => {
     // Add passive event listener for better performance
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -101,8 +101,8 @@ const Header = () => {
                       ? 'bg-blue-800 text-white hover:bg-blue-900' 
                       : 'text-blue-800 hover:text-blue-900 hover:bg-blue-50'
                   }`}
-                >
-                  HOME
+              >
+                HOME
                 </Link>
               </motion.div>
 
@@ -136,9 +136,9 @@ const Header = () => {
 
               {/* Tournaments */}
               <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
               >
                 <Link 
                   href="/TournmentRegistration" 
@@ -193,8 +193,8 @@ const Header = () => {
                       ? 'bg-blue-800 text-white hover:bg-blue-900' 
                       : 'text-blue-800 hover:text-blue-900 hover:bg-blue-50'
                   }`}
-                >
-                  CONTACT US
+              >
+                CONTACT US
                 </Link>
               </motion.div>
             </nav>

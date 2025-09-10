@@ -63,12 +63,12 @@ const HeroSection = () => {
       {/* Desktop Background */}
       <div 
         className="hidden md:block absolute inset-0 motion-element"
-        style={{
-          backgroundImage: 'url(/images/Banner.png), linear-gradient(to right, #f3f3f3, #fbfafd)',
-          backgroundSize: 'contain, 100% 100%',
-          backgroundPosition: 'left calc(100% + 150px), center',
-          backgroundRepeat: 'no-repeat, no-repeat',
-          width: '100%',
+      style={{
+        backgroundImage: 'url(/images/Banner.png), linear-gradient(to right, #f3f3f3, #fbfafd)',
+        backgroundSize: 'contain, 100% 100%',
+        backgroundPosition: 'left calc(100% + 150px), center',
+        backgroundRepeat: 'no-repeat, no-repeat',
+        width: '100%',
           height: '100vh'
         }}
       />
@@ -83,7 +83,7 @@ const HeroSection = () => {
           backgroundRepeat: 'no-repeat, no-repeat',
           width: '100%',
           height: '100vh'
-        }}
+      }}
       />
       
       {/* Content Section */}
@@ -109,31 +109,31 @@ const HeroSection = () => {
             </motion.p>
             
             <div className="relative">
-              <motion.h1 
+            <motion.h1 
                 className="font-bebas-neue font-extrabold uppercase text-6xl md:text-[220px]"
-                style={{ 
-                  lineHeight: '0.9',
-                  color: '#1E3A8A',
+              style={{ 
+                lineHeight: '0.9',
+                color: '#1E3A8A',
                   margin: '0',
                   willChange: 'transform'
-                }}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
+              }}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-              >
-                <div>
-                  JOYOUS <span style={{ color: '#F43F5E' }}>CHESS</span>
-                </div>
-              </motion.h1>
-              
+            >
+              <div>
+                JOYOUS <span style={{ color: '#F43F5E' }}>CHESS</span>
+              </div>
+            </motion.h1>
+            
               {/* Button Section - Positioned under "SS" in CHESS */}
-              <motion.div 
+            <motion.div 
                 className="flex justify-center md:justify-end mt-6 md:mt-2 md:absolute md:right-0 md:top-full" 
                 style={{ marginTop: '20px' }}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: 0.4 }}
-              >
+            >
               <button 
                 className="font-lato font-bold uppercase transition-all duration-300 transform relative overflow-hidden group w-full md:w-auto text-sm md:text-base px-6 py-4 md:px-6 md:py-3 float-button"
                 style={{
@@ -371,7 +371,7 @@ const WhyChooseUsSection = () => {
       <div className="max-w-7xl mx-auto">
         {/* Desktop Layout */}
         <div className="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-start mb-8 md:mb-12">
-          {/* Left Content */}
+                    {/* Left Content */}
           <div>
             <motion.h2 
               className="font-bebas-neue font-extrabold leading-none mb-6 md:mb-8 uppercase text-center lg:text-left"
@@ -721,24 +721,24 @@ const TournamentsSection = () => {
           {/* Left Content - Title and Description */}
           <div>
             <div className="text-center md:text-left">
-              <motion.button 
+            <motion.button 
                 className="text-white px-6 py-3 rounded-full font-bebas-neue font-extrabold mb-8 uppercase transition-colors" 
-                style={{ backgroundColor: '#F43F5E' }}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                onMouseEnter={(e) => {
-                  const target = e.target as HTMLButtonElement;
-                  target.style.backgroundColor = '#E11D48';
-                }}
-                onMouseLeave={(e) => {
-                  const target = e.target as HTMLButtonElement;
-                  target.style.backgroundColor = '#F43F5E';
-                }}
-              >
-                TOURNAMENTS
-              </motion.button>
+              style={{ backgroundColor: '#F43F5E' }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              onMouseEnter={(e) => {
+                const target = e.target as HTMLButtonElement;
+                target.style.backgroundColor = '#E11D48';
+              }}
+              onMouseLeave={(e) => {
+                const target = e.target as HTMLButtonElement;
+                target.style.backgroundColor = '#F43F5E';
+              }}
+            >
+              TOURNAMENTS
+            </motion.button>
             </div>
             
             <motion.h2 
@@ -1373,22 +1373,22 @@ const RegistrationSection = () => {
 
               {/* Parent Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.5 }}
-                >
-                  <input
-                    type="text"
+              >
+                <input
+                  type="text"
                     name="parentFirstName"
                     placeholder="Parent's First Name"
                     value={formData.parentFirstName}
-                    onChange={handleChange}
+                  onChange={handleChange}
                     className="w-full px-4 py-3 rounded-lg text-gray-700 placeholder-gray-400 border-2 border-white/20"
-                    required
-                  />
-                </motion.div>
+                  required
+                />
+              </motion.div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1409,10 +1409,10 @@ const RegistrationSection = () => {
 
               {/* Contact Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.7 }}
                 >
                   <input
@@ -1430,37 +1430,37 @@ const RegistrationSection = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.8 }}
-                >
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Phone Number"
-                    value={formData.phone}
-                    onChange={handleChange}
+              >
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
                     className="w-full px-4 py-3 rounded-lg text-gray-700 placeholder-gray-400 border-2 border-white/20"
-                    required
-                  />
-                </motion.div>
+                  required
+                />
+              </motion.div>
               </div>
-
+              
               {/* Student Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 0.9 }}
-                >
-                  <input
+              >
+                <input
                     type="text"
                     name="studentName"
                     placeholder="Student's Name"
                     value={formData.studentName}
-                    onChange={handleChange}
+                  onChange={handleChange}
                     className="w-full px-4 py-3 rounded-lg text-gray-700 placeholder-gray-400 border-2 border-white/20"
-                    required
-                  />
-                </motion.div>
+                  required
+                />
+              </motion.div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1481,25 +1481,25 @@ const RegistrationSection = () => {
 
               {/* Age and Class */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: 1.1 }}
-                >
-                  <select
+              >
+                <select
                     name="studentAge"
                     value={formData.studentAge}
-                    onChange={handleChange}
+                  onChange={handleChange}
                     className="w-full px-4 py-3 rounded-lg text-gray-700 border-2 border-white/20 bg-white"
-                    required
-                  >
+                  required
+                >
                     <option value="">- Select Age -</option>
                     {ageOptions.map((age) => (
                       <option key={age} value={age}>{age}</option>
                     ))}
-                  </select>
-                </motion.div>
+                </select>
+              </motion.div>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -1722,7 +1722,7 @@ const TestimonialsSection = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <div className="overflow-hidden">
-            <motion.div 
+              <motion.div 
               className="flex gap-8 motion-scroll"
               style={{ 
                 transform: `translateX(-${scrollPosition}px)`,
@@ -1735,33 +1735,33 @@ const TestimonialsSection = () => {
                   key={testimonial.name}
                   className="flex-shrink-0 bg-white rounded-lg shadow-lg overflow-hidden flex flex-col testimonial-card"
                   style={{ width: '384px', height: '400px' }}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
-                >
-                  {/* Red header */}
-                  <div className="h-24 relative" style={{ backgroundColor: '#F43F5E' }}>
-                    <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2">
-                      <div className="w-24 h-24 bg-gray-200 rounded-full border-4 border-white flex items-center justify-center">
-                        <span className="text-gray-500 text-xs">Profile</span>
-                      </div>
+              >
+                {/* Red header */}
+                <div className="h-24 relative" style={{ backgroundColor: '#F43F5E' }}>
+                  <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2">
+                    <div className="w-24 h-24 bg-gray-200 rounded-full border-4 border-white flex items-center justify-center">
+                      <span className="text-gray-500 text-xs">Profile</span>
                     </div>
                   </div>
-                  
-                                     {/* Content */}
-                   <div className="px-6 pt-16 pb-6 text-center flex-1 flex flex-col">
+                </div>
+                
+                {/* Content */}
+                <div className="px-6 pt-16 pb-6 text-center flex-1 flex flex-col">
                      <div className="flex-1 overflow-y-auto">
                        <p className="text-gray-700 mb-6 italic font-lato font-normal">&quot;{testimonial.text}&quot;</p>
                      </div>
-                    
-                    {/* Footer - sticks to bottom */}
-                    <div className="bg-blue-800 mx-[-24px] mb-[-24px] p-4 mt-auto">
+                  
+                  {/* Footer - sticks to bottom */}
+                  <div className="bg-blue-800 mx-[-24px] mb-[-24px] p-4 mt-auto">
                       <p className="text-white font-bebas-neue font-extrabold">{testimonial.name}</p>
                       <p className="text-white text-sm font-lato font-normal">{testimonial.type}</p>
-                    </div>
                   </div>
-                </motion.div>
+                </div>
+              </motion.div>
               ))}
             </motion.div>
           </div>
