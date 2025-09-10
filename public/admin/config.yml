@@ -2,8 +2,6 @@ backend:
   name: github
   repo: studio0o7/joyous
   branch: main
-  base_url: https://api.netlify.com
-  auth_endpoint: /auth
 
 # Alternative for manual GitHub setup (comment out the above if using this)
 # backend:

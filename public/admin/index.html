@@ -4,7 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Joyous Chess Admin - Tournament Management</title>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
     <!-- Include the script that builds the page and powers Decap CMS -->
@@ -47,28 +46,11 @@
     </style>
     
     <script>
-      // Initialize CMS only after Identity is fully ready
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (user) {
-            // User is logged in, initialize CMS immediately
-            CMS.init();
-            CMS.registerPreviewStyle("/admin/preview.css");
-          } else {
-            // User not logged in, wait for login then initialize
-            window.netlifyIdentity.on("login", () => {
-              CMS.init();
-              CMS.registerPreviewStyle("/admin/preview.css");
-            });
-          }
-        });
-      } else {
-        // Fallback if Identity widget not loaded
-        setTimeout(() => {
-          CMS.init();
-          CMS.registerPreviewStyle("/admin/preview.css");
-        }, 1000);
-      }
+      // Simple, direct CMS initialization
+      CMS.init();
+      
+      // Custom preview styles for tournaments
+      CMS.registerPreviewStyle("/admin/preview.css");
     </script>
   </body>
 </html> 
