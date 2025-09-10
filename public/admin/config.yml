@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: studio0o7/joyous
   branch: main
   client_id: Ov23lijVbLx3zbuv1NOn
 
