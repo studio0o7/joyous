@@ -47,19 +47,13 @@
     </style>
     
     <script>
-      // Custom configuration
-      CMS.init({
-        config: {
-          load_config_file: true,
-          display_url: window.location.origin,
-          logo_url: '/logo.png'
-        }
-      });
+      // Simple initialization - let config.yml handle everything
+      CMS.init();
       
       // Custom preview styles for tournaments
       CMS.registerPreviewStyle("/admin/preview.css");
       
-      // Initialize Netlify Identity (if using Netlify)
+      // Initialize Netlify Identity
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", user => {
           if (!user) {
