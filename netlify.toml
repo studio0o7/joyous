@@ -1,4 +1,4 @@
-# Define the edge function and its path
+# Define the edge function and its path (exclude admin to prevent OAuth interference)
 [[edge_functions]]
   function = "geo"
   path = "/*"
