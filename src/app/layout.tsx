@@ -58,57 +58,85 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              // Wait for Netlify Identity to load
+              // Check for invite token immediately on page load
+              let hasInviteToken = false;
+              const currentHash = window.location.hash;
+              
+              if (currentHash && currentHash.includes('invite_token=')) {
+                hasInviteToken = true;
+                console.log('Invite token detected in URL:', currentHash);
+              }
+              
+              // Function to handle Identity initialization
               function initializeNetlifyIdentity() {
                 if (window.netlifyIdentity) {
-                  console.log('Netlify Identity loaded');
+                  console.log('Netlify Identity widget loaded');
                   
+                  // Force signup modal if we detected an invite token
+                  if (hasInviteToken) {
+                    console.log('Opening signup modal for invite token...');
+                    setTimeout(() => {
+                      window.netlifyIdentity.open('signup');
+                    }, 100);
+                  }
+                  
+                  // Set up event listeners
                   window.netlifyIdentity.on("init", user => {
-                    console.log('Identity initialized, user:', user ? user.email : 'none');
+                    console.log('Identity initialized, current user:', user ? user.email : 'none');
                     
-                    // Handle invite tokens in URL
-                    const hash = window.location.hash;
-                    if (hash && hash.includes('invite_token=')) {
-                      const params = new URLSearchParams(hash.substr(1));
-                      const inviteToken = params.get('invite_token');
-                      
-                      if (inviteToken && !user) {
-                        console.log('Invite token found:', inviteToken, 'showing signup modal');
-                        window.netlifyIdentity.open('signup');
-                      }
+                    // Also check for invite token here as backup
+                    if (!user && hasInviteToken) {
+                      console.log('No user found, opening signup for invite token');
+                      window.netlifyIdentity.open('signup');
                     }
                   });
                   
-                  // Auto-redirect to admin after signup/login
                   window.netlifyIdentity.on("login", user => {
                     console.log('User logged in:', user.email);
-                    // Only redirect if we're not already on admin page
                     if (!window.location.pathname.includes('/admin')) {
-                      console.log('Redirecting to admin...');
+                      console.log('Redirecting to admin panel...');
                       window.location.href = '/admin';
                     }
                   });
                   
                   window.netlifyIdentity.on("signup", user => {
                     console.log('User signed up:', user.email);
-                    // Redirect to admin after signup
-                    console.log('Redirecting to admin after signup...');
+                    console.log('Redirecting to admin panel after signup...');
                     window.location.href = '/admin';
+                  });
+                  
+                  window.netlifyIdentity.on("close", () => {
+                    console.log('Identity modal closed');
+                  });
+                  
+                  window.netlifyIdentity.on("error", error => {
+                    console.error('Identity error:', error);
                   });
                   
                   // Initialize the widget
                   window.netlifyIdentity.init();
+                  
                 } else {
-                  // Retry if Identity widget hasn't loaded yet
+                  console.log('Netlify Identity not loaded yet, retrying...');
                   setTimeout(initializeNetlifyIdentity, 500);
                 }
               }
               
-              // Start initialization when DOM is ready
+              // Start initialization immediately
               if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', initializeNetlifyIdentity);
               } else {
                 initializeNetlifyIdentity();
+              }
+              
+              // Additional check after a delay to ensure signup opens
+              if (hasInviteToken) {
+                setTimeout(() => {
+                  if (window.netlifyIdentity && !window.netlifyIdentity.currentUser()) {
+                    console.log('Backup: Opening signup modal after delay');
+                    window.netlifyIdentity.open('signup');
+                  }
+                }, 2000);
               }
             `,
           }}
