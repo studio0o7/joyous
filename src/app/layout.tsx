@@ -47,6 +47,72 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${anton.variable} ${lato.variable} font-lato`}>
         {children}
+        
+        {/* Load Netlify Identity widget for invite token handling */}
+        <script
+          src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+          async
+        />
+        
+        {/* Initialize Netlify Identity for invite token handling */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Wait for Netlify Identity to load
+              function initializeNetlifyIdentity() {
+                if (window.netlifyIdentity) {
+                  console.log('Netlify Identity loaded');
+                  
+                  window.netlifyIdentity.on("init", user => {
+                    console.log('Identity initialized, user:', user ? user.email : 'none');
+                    
+                    // Handle invite tokens in URL
+                    const hash = window.location.hash;
+                    if (hash && hash.includes('invite_token=')) {
+                      const params = new URLSearchParams(hash.substr(1));
+                      const inviteToken = params.get('invite_token');
+                      
+                      if (inviteToken && !user) {
+                        console.log('Invite token found:', inviteToken, 'showing signup modal');
+                        window.netlifyIdentity.open('signup');
+                      }
+                    }
+                  });
+                  
+                  // Auto-redirect to admin after signup/login
+                  window.netlifyIdentity.on("login", user => {
+                    console.log('User logged in:', user.email);
+                    // Only redirect if we're not already on admin page
+                    if (!window.location.pathname.includes('/admin')) {
+                      console.log('Redirecting to admin...');
+                      window.location.href = '/admin';
+                    }
+                  });
+                  
+                  window.netlifyIdentity.on("signup", user => {
+                    console.log('User signed up:', user.email);
+                    // Redirect to admin after signup
+                    console.log('Redirecting to admin after signup...');
+                    window.location.href = '/admin';
+                  });
+                  
+                  // Initialize the widget
+                  window.netlifyIdentity.init();
+                } else {
+                  // Retry if Identity widget hasn't loaded yet
+                  setTimeout(initializeNetlifyIdentity, 500);
+                }
+              }
+              
+              // Start initialization when DOM is ready
+              if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeNetlifyIdentity);
+              } else {
+                initializeNetlifyIdentity();
+              }
+            `,
+          }}
+        />
       </body>
     </html>
   )
