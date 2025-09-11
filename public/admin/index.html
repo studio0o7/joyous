@@ -7,7 +7,7 @@
   </head>
   <body>
     <!-- Include the script that builds the page and powers Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@3.0.15/dist/decap-cms.js"></script>
+    <script src="https://unpkg.com/decap-cms@3.0.0/dist/decap-cms.js"></script>
     
     <!-- Custom styling for the CMS -->
     <style>
@@ -46,11 +46,65 @@
     </style>
     
     <script>
-      // Simple, direct CMS initialization
-      CMS.init();
+      // Enhanced CMS initialization with better error handling
+      function initializeCMS() {
+        console.log('Initializing Decap CMS...');
+        
+        try {
+          // Check if CMS is available
+          if (typeof CMS === 'undefined') {
+            throw new Error('CMS object not found - script may not have loaded properly');
+          }
+          
+          // Initialize CMS
+          CMS.init();
+          console.log('CMS initialized successfully');
+          
+          // Register custom preview styles
+          CMS.registerPreviewStyle("/admin/preview.css");
+          console.log('Preview styles registered');
+          
+        } catch (error) {
+          console.error('CMS initialization failed:', error);
+          
+          // Retry once after a delay
+          setTimeout(function() {
+            try {
+              console.log('Retrying CMS initialization...');
+              CMS.init();
+              CMS.registerPreviewStyle("/admin/preview.css");
+              console.log('CMS initialized successfully on retry');
+            } catch (retryError) {
+              console.error('CMS retry failed:', retryError);
+              
+              // Show user-friendly error message
+              document.body.innerHTML = `
+                <div style="padding: 40px; text-align: center; font-family: Arial, sans-serif;">
+                  <h1 style="color: #dc2626;">Admin Panel Error</h1>
+                  <p>Failed to initialize the CMS. This is usually a temporary issue.</p>
+                  <p><strong>Error:</strong> ${retryError.message}</p>
+                  <div style="margin-top: 20px;">
+                    <button onclick="location.reload()" style="padding: 10px 20px; background: #1E3A8A; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">
+                      Retry
+                    </button>
+                    <button onclick="window.location.href='/'" style="padding: 10px 20px; background: #6B7280; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                      Back to Site
+                    </button>
+                  </div>
+                </div>
+              `;
+            }
+          }, 1000);
+        }
+      }
       
-      // Custom preview styles for tournaments
-      CMS.registerPreviewStyle("/admin/preview.css");
+      // Wait for DOM to be fully loaded
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeCMS);
+      } else {
+        // DOM is already loaded
+        initializeCMS();
+      }
     </script>
   </body>
 </html> 

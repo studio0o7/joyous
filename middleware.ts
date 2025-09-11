@@ -1,6 +1,13 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+// Extend NextRequest to include geo property
+interface GeoNextRequest extends NextRequest {
+  geo?: {
+    country?: string;
+  };
+}
+
 export function middleware(request: NextRequest) {
   // Check if this is an API route or asset request (which we should skip)
   const { pathname } = new URL(request.url);
@@ -13,7 +20,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Get country from request headers (supplied by Netlify or Vercel)
-  const country = (request as any).geo?.country || 'US'; // Default to US if not available
+  const country = (request as GeoNextRequest).geo?.country || 'US'; // Default to US if not available
   
   // For testing: Allow URL parameter to override the country
   const { searchParams } = new URL(request.url);
@@ -49,7 +56,7 @@ export function middleware(request: NextRequest) {
   return response;
 }
 
-// Run middleware on all pages
+// Run middleware on all pages except admin
 export const config = {
   matcher: [
     /*
@@ -57,7 +64,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - admin (admin panel and related files)
      */
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/((?!_next/static|_next/image|favicon.ico|admin).*)',
   ],
 }; 
