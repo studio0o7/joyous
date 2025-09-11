@@ -44,16 +44,27 @@ display_url: https://your-domain.com
 
 ### 2. GitHub OAuth Setup
 
-**Option A: Netlify (Recommended)**
-1. Deploy to Netlify
-2. Go to Site Settings → Access Control → OAuth  
-3. Install GitHub provider
-4. CMS will work automatically at `/admin`
+**🎯 NEW: Direct GitHub OAuth (Recommended)**
 
-**Option B: Manual GitHub App**
-1. Create GitHub OAuth App in your repo settings
-2. Set Authorization callback URL: `https://your-domain.com/admin`
-3. Update config.yml with your OAuth details
+The CMS now uses **direct GitHub OAuth** instead of Netlify Identity for better platform independence.
+
+1. **Create GitHub OAuth App**:
+   - Go to GitHub → Settings → Developer settings → OAuth Apps
+   - Click "New OAuth App"
+   - Set Authorization callback URL: `https://your-domain.com/admin/`
+   - Copy Client ID and Client Secret
+
+2. **Update CMS Configuration**:
+   - The `config.yml` has been updated to use `backend: name: github`
+   - Replace `YOUR_USERNAME` with your actual GitHub username
+   - No additional environment variables needed for Netlify hosting
+
+3. **Repository Access**:
+   - Add users as collaborators to your GitHub repository
+   - Users need **Write** access to edit content
+   - Access control managed through GitHub permissions
+
+📋 **See `GITHUB_OAUTH_SETUP.md` for detailed step-by-step instructions**
 
 ### 3. Content Management Workflow
 
@@ -106,10 +117,13 @@ npm run dev
 ## 🔧 Key Benefits
 
 ✅ **Client-friendly** - Visual editor, no coding required  
+✅ **Platform independent** - No Netlify vendor lock-in  
 ✅ **Automatic backups** - All content in GitHub  
 ✅ **Instant publishing** - Create tournament → Live immediately  
 ✅ **Version control** - Track all changes  
 ✅ **Zero server costs** - Pure static site  
+✅ **Simple authentication** - Direct GitHub OAuth  
+✅ **Better performance** - No external auth scripts  
 ✅ **Google Sheets integration** - Ready for form submissions  
 
 ## 📋 CMS Field Types Available

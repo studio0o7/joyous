@@ -1,12 +1,10 @@
 backend:
   name: github
-  repo: studio0o7/joyous
+  repo: studio0o7/joyouschess
   branch: main
-
-# Alternative for Git Gateway (comment out the above if using this)
-# backend:
-#   name: git-gateway
-#   branch: main
+  # OAuth handled by Netlify's authentication service
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
 
 # Media and Public folders
 media_folder: "public/uploads"
