@@ -1,11 +1,11 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: studio0o7/joyous
   branch: main
 
-# Alternative for manual GitHub setup (comment out the above if using this)
+# Alternative for Git Gateway (comment out the above if using this)
 # backend:
-#   name: github
-#   repo: your-username/joyouschess
+#   name: git-gateway
 #   branch: main
 
 # Media and Public folders
