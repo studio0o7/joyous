@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: studio0o7/joyouschess
+  repo: studio0o7/joyous
   branch: main
   # OAuth handled by Netlify's authentication service
   base_url: https://api.netlify.com
