@@ -3,8 +3,6 @@ backend:
   repo: studio0o7/joyous
   branch: main
   client_id: Ov23lijVbLx3zbuv1NOn
-  base_url: https://api.github.com
-  auth_endpoint: /login/oauth/authorize
 
 # Alternative for manual GitHub setup (comment out the above if using this)
 # backend:
