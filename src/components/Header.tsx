@@ -6,7 +6,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 
-const Header = () => {
+interface HeaderProps {
+  openModal?: () => void
+}
+
+const Header = ({ openModal }: HeaderProps = {}) => {
   const [scrolled, setScrolled] = React.useState(false);
   const [activeDropdown, setActiveDropdown] = React.useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -212,7 +216,9 @@ const Header = () => {
                 className="text-white px-4 py-2 rounded-full text-sm font-lato font-bold transition-all duration-300 hover:opacity-90 hover:scale-105" 
                 style={{ backgroundColor: '#F43F5E' }}
                 onClick={() => {
-                  if (window.location.pathname === '/') {
+                  if (openModal && window.location.pathname === '/') {
+                    openModal()
+                  } else if (window.location.pathname === '/') {
                     const element = document.getElementById('upcoming-classes')
                     if (element) {
                       element.scrollIntoView({ behavior: 'smooth' })
@@ -297,7 +303,9 @@ const Header = () => {
                   className="block text-white px-4 py-2 rounded-full text-sm font-lato font-bold text-center transition-all duration-300 w-full" 
                   style={{ backgroundColor: '#F43F5E' }}
                   onClick={() => {
-                    if (window.location.pathname === '/') {
+                    if (openModal && window.location.pathname === '/') {
+                      openModal()
+                    } else if (window.location.pathname === '/') {
                       const element = document.getElementById('upcoming-classes')
                       if (element) {
                         element.scrollIntoView({ behavior: 'smooth' })

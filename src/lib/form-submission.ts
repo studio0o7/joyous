@@ -22,6 +22,16 @@ export interface FormSubmissionData {
   byes?: string
   specialRequests?: string
   
+  // Document uploads (base64 encoded)
+  birthCertificate?: string
+  photoID?: string
+  paymentProof?: string
+  
+  // Document metadata
+  birthCertificateFileName?: string
+  photoIDFileName?: string
+  paymentProofFileName?: string
+  
   // Consent
   consent: boolean
   
@@ -36,15 +46,10 @@ export interface FormSubmissionResponse {
   registrationId?: string
 }
 
-// Get Google Apps Script endpoint from CMS settings or environment
+// Get registration API endpoint
 function getFormEndpoint(): string {
-  // First try environment variable
-  if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_FORM_ENDPOINT) {
-    return process.env.NEXT_PUBLIC_FORM_ENDPOINT
-  }
-  
-  // Fallback to a placeholder (will be replaced with actual URL)
-  return process.env.NEXT_PUBLIC_FORM_ENDPOINT || 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'
+  // Use Next.js API route
+  return '/api/register'
 }
 
 // Submit form data to Google Apps Script
@@ -66,17 +71,7 @@ export async function submitTournamentRegistration(
     
     const endpoint = getFormEndpoint()
     
-    if (endpoint === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-      // Development mode - just log the data
-      console.log('Form submission (development mode):', submissionData)
-      return {
-        success: true,
-        message: 'Registration submitted successfully! (Development mode)',
-        registrationId: 'DEV_' + Date.now()
-      }
-    }
-    
-    // Submit to Google Apps Script
+    // Submit to Next.js API route
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -116,6 +111,37 @@ function generateFormToken(tournamentId: string, email: string): string {
   return btoa(data).replace(/[+/=]/g, '').substring(0, 16)
 }
 
+// Convert File to base64 string
+export async function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      const result = reader.result as string
+      // Remove the data:image/jpeg;base64, prefix
+      const base64 = result.split(',')[1]
+      resolve(base64)
+    }
+    reader.onerror = error => reject(error)
+  })
+}
+
+// Validate file size and type
+export function validateFile(file: File, maxSizeMB: number = 5): { valid: boolean; error?: string } {
+  const maxSize = maxSizeMB * 1024 * 1024 // Convert MB to bytes
+  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf']
+  
+  if (file.size > maxSize) {
+    return { valid: false, error: `File size must be less than ${maxSizeMB}MB` }
+  }
+  
+  if (!allowedTypes.includes(file.type)) {
+    return { valid: false, error: 'File must be JPG, PNG, or PDF' }
+  }
+  
+  return { valid: true }
+}
+
 // Validate form data before submission
 export function validateFormData(data: Partial<FormSubmissionData>): string[] {
   const errors: string[] = []
@@ -150,7 +176,50 @@ export function validateFormData(data: Partial<FormSubmissionData>): string[] {
     errors.push('You must agree to the terms and conditions')
   }
   
+  // File validations (optional files)
+  // Note: Files are already validated before base64 conversion
+  
   return errors
+}
+
+// Process files for submission
+export async function processFiles(files: {
+  birthCertificate?: File | null
+  photoID?: File | null
+  paymentProof?: File | null
+}): Promise<{
+  birthCertificate?: string
+  photoID?: string
+  paymentProof?: string
+  birthCertificateFileName?: string
+  photoIDFileName?: string
+  paymentProofFileName?: string
+}> {
+  const processedFiles: {
+    birthCertificate?: string
+    photoID?: string
+    paymentProof?: string
+    birthCertificateFileName?: string
+    photoIDFileName?: string
+    paymentProofFileName?: string
+  } = {}
+  
+  if (files.birthCertificate) {
+    processedFiles.birthCertificate = await fileToBase64(files.birthCertificate)
+    processedFiles.birthCertificateFileName = files.birthCertificate.name
+  }
+  
+  if (files.photoID) {
+    processedFiles.photoID = await fileToBase64(files.photoID)
+    processedFiles.photoIDFileName = files.photoID.name
+  }
+  
+  if (files.paymentProof) {
+    processedFiles.paymentProof = await fileToBase64(files.paymentProof)
+    processedFiles.paymentProofFileName = files.paymentProof.name
+  }
+  
+  return processedFiles
 }
 
 // Format data for display in confirmation

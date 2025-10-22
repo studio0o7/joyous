@@ -1,12 +1,279 @@
 'use client'
 
-import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Header from './Header'
 import Footer from './Footer'
 
+// Registration Modal Component
+const RegistrationModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const [formData, setFormData] = useState({
+    parentFirstName: '',
+    parentLastName: '',
+    email: '',
+    phone: '',
+    studentName: '',
+    studentSchool: '',
+    studentAge: '',
+    studentClass: '',
+    priorExperience: '',
+    classType: ''
+  })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log('Form submitted:', formData)
+    alert('Registration submitted successfully!')
+    onClose()
+  }
+
+  const ageOptions = [
+    'Under 5 years',
+    '5-7 years',
+    '8-10 years',
+    '11-13 years',
+    '14-16 years',
+    '17+ years'
+  ]
+
+  const classOptions = [
+    'Pre-KG',
+    'KG',
+    'Class 1',
+    'Class 2',
+    'Class 3',
+    'Class 4',
+    'Class 5',
+    'Class 6',
+    'Class 7',
+    'Class 8',
+    'Class 9',
+    'Class 10',
+    'Class 11',
+    'Class 12'
+  ]
+
+  const experienceOptions = [
+    'Complete Beginner',
+    'Knows Basic Rules',
+    'Casual Player',
+    'Tournament Player',
+    'Advanced Player'
+  ]
+
+  if (!isOpen) return null
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+            onClick={onClose}
+          />
+
+          {/* Modal */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={onClose}
+                className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+              >
+                <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              {/* Header */}
+              <div className="p-4 md:p-6 rounded-t-2xl" style={{ background: 'linear-gradient(135deg, #DC2626 0%, #F43F5E 50%, #EF4444 100%)' }}>
+                <h2 className="font-bebas-neue font-extrabold text-2xl md:text-3xl text-white uppercase mb-1">
+                  Book Your Free Trial Class
+                </h2>
+                <p className="text-white/90 font-lato text-sm">
+                  Join our exciting chess classes and start your journey to mastery
+                </p>
+              </div>
+
+              {/* Form */}
+              <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4">
+                {/* Class Type Selection */}
+                <div>
+                  <select
+                    name="classType"
+                    value={formData.classType}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 rounded-lg text-gray-700 border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-sm"
+                    required
+                  >
+                    <option value="">Select Class Type</option>
+                    <option value="online">Online Classes</option>
+                    <option value="offline">Offline Classes</option>
+                  </select>
+                </div>
+
+                {/* Parent Information */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <input
+                      type="text"
+                      name="parentFirstName"
+                      placeholder="Parent's First Name"
+                      value={formData.parentFirstName}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-lg text-gray-700 placeholder-gray-400 border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-sm"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="parentLastName"
+                      placeholder="Parent's Last Name"
+                      value={formData.parentLastName}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-lg text-gray-700 placeholder-gray-400 border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-sm"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Contact Information */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email Address"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-lg text-gray-700 placeholder-gray-400 border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-sm"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Phone Number"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-lg text-gray-700 placeholder-gray-400 border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-sm"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Student Information */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <input
+                      type="text"
+                      name="studentName"
+                      placeholder="Student's Name"
+                      value={formData.studentName}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-lg text-gray-700 placeholder-gray-400 border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-sm"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="studentSchool"
+                      placeholder="Student's School"
+                      value={formData.studentSchool}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-lg text-gray-700 placeholder-gray-400 border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors text-sm"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Age and Class */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div>
+                    <select
+                      name="studentAge"
+                      value={formData.studentAge}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-lg text-gray-700 border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors bg-white text-sm"
+                      required
+                    >
+                      <option value="">- Select Age -</option>
+                      {ageOptions.map((age) => (
+                        <option key={age} value={age}>{age}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <select
+                      name="studentClass"
+                      value={formData.studentClass}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-lg text-gray-700 border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors bg-white text-sm"
+                      required
+                    >
+                      <option value="">- Select Class -</option>
+                      {classOptions.map((className) => (
+                        <option key={className} value={className}>{className}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Prior Experience */}
+                <div>
+                  <select
+                    name="priorExperience"
+                    value={formData.priorExperience}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 rounded-lg text-gray-700 border-2 border-gray-200 focus:border-blue-500 focus:outline-none transition-colors bg-white text-sm"
+                    required
+                  >
+                    <option value="">- Select Experience Level -</option>
+                    {experienceOptions.map((experience) => (
+                      <option key={experience} value={experience}>{experience}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Submit Button */}
+                <motion.button
+                  type="submit"
+                  className="w-full bg-blue-800 text-white py-3 rounded-lg font-bebas-neue font-extrabold hover:bg-blue-900 flex items-center justify-center uppercase transition-colors text-base"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Book Your Free Trial Class Now!
+                </motion.button>
+              </form>
+            </motion.div>
+          </div>
+        </>
+      )}
+    </AnimatePresence>
+  )
+}
+
 // Hero Section
-const HeroSection = () => {
+const HeroSection = ({ openModal }: { openModal: () => void }) => {
   const [kidsCount, setKidsCount] = useState(0)
   const [tournamentsCount, setTournamentsCount] = useState(0)
   const [hasAnimated, setHasAnimated] = useState(false)
@@ -58,201 +325,225 @@ const HeroSection = () => {
 
   return (
     <section 
-      className="min-h-screen flex flex-col pt-20 md:pt-24"
-    >
-      {/* Desktop Background */}
-      <div 
-        className="hidden md:block absolute inset-0 motion-element"
+      className="min-h-screen flex flex-col pt-20 md:pt-24 relative"
       style={{
-        backgroundImage: 'url(/images/Banner.png), linear-gradient(to right, #f3f3f3, #fbfafd)',
-        backgroundSize: 'contain, 100% 100%',
-        backgroundPosition: 'left calc(100% + 150px), center',
-        backgroundRepeat: 'no-repeat, no-repeat',
-        width: '100%',
-          height: '100vh'
-        }}
-      />
-      
-      {/* Mobile Background */}
-      <div 
-        className="md:hidden absolute inset-0 motion-element"
-        style={{
-          backgroundImage: 'url(/images/Banner.png), linear-gradient(to right, #f3f3f3, #fbfafd)',
-          backgroundSize: '150%, 100% 100%',
-          backgroundPosition: 'center bottom, center',
-          backgroundRepeat: 'no-repeat, no-repeat',
-          width: '100%',
-          height: '100vh'
+        background: 'linear-gradient(to right, #f8f9fa, #ffffff)'
       }}
-      />
-      
-      {/* Content Section */}
-      <div className="flex-1 flex items-start md:items-center justify-center relative z-10 pt-24 md:pt-0">
-        <div className="w-full px-4 md:px-0 relative">
-          {/* Left Content - Main Heading & Subtext */}
-          <div className="static md:absolute left-4 md:left-16 top-auto md:top-1/2 transform md:-translate-y-3/4 text-center md:text-left" style={{ top: 'calc(50% - 8px)' }}>
+    >
+      {/* Main Content Container */}
+      <div className="flex-1 flex items-center justify-center relative z-10 py-8 lg:py-0">
+        <div className="max-w-7xl mx-auto w-full px-4 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center">
             
-            {/* Description - Above Title */}
-            <motion.p 
-              className="font-lato font-medium text-base md:text-xl"
-              style={{
-                color: '#F43F5E',
-                maxWidth: '750px',
-                marginBottom: '8px',
-                lineHeight: '1.4'
-              }}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-            >
-              Live online classes, exciting tournaments, and personalized learning paths
-            </motion.p>
-            
-            <div className="relative">
+            {/* Title - Shows first on mobile, hidden on desktop */}
             <motion.h1 
-                className="font-bebas-neue font-extrabold uppercase text-6xl md:text-[220px]"
+              className="lg:hidden font-bebas-neue font-extrabold uppercase text-3xl md:text-5xl mb-4 text-center order-1"
               style={{ 
-                lineHeight: '0.9',
-                color: '#1E3A8A',
-                  margin: '0',
-                  willChange: 'transform'
+                lineHeight: '1',
+                color: '#1E3A8A'
               }}
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <div>
-                JOYOUS <span style={{ color: '#F43F5E' }}>CHESS</span>
-              </div>
+              BUILDING BRILLIANT <span style={{ color: '#F43F5E' }}>MINDS</span> THROUGH CHESS
             </motion.h1>
             
-              {/* Button Section - Positioned under "SS" in CHESS */}
-            <motion.div 
-                className="flex justify-center md:justify-end mt-6 md:mt-2 md:absolute md:right-0 md:top-full" 
-                style={{ marginTop: '20px' }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: 0.4 }}
-            >
-              <button 
-                className="font-lato font-bold uppercase transition-all duration-300 transform relative overflow-hidden group w-full md:w-auto text-sm md:text-base px-6 py-4 md:px-6 md:py-3 float-button"
+            {/* LEFT SIDE - Title (desktop only), Description, Button */}
+            <div className="text-center lg:text-left order-3 lg:order-1">
+              {/* Main Title - Desktop only */}
+              <motion.h1 
+                className="hidden lg:block font-bebas-neue font-extrabold uppercase text-7xl mb-6"
+                style={{ 
+                  lineHeight: '1',
+                  color: '#1E3A8A'
+                }}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                BUILDING BRILLIANT <span style={{ color: '#F43F5E' }}>MINDS</span> THROUGH CHESS
+              </motion.h1>
+              
+              {/* Description */}
+              <motion.p 
+                className="font-lato font-medium text-sm md:text-base lg:text-lg mb-6 lg:mb-8 px-2 lg:px-0"
                 style={{
-                  background: 'linear-gradient(135deg, #DC2626 0%, #F43F5E 50%, #EF4444 100%)',
-                  color: 'white',
-                  borderRadius: '50px',
-                  fontWeight: '800',
-                  border: '2px solid rgba(255, 255, 255, 0.2)',
-                  cursor: 'pointer',
-                  boxShadow: '0 8px 30px rgba(244, 63, 94, 0.6), 0 4px 15px rgba(244, 63, 94, 0.4)',
-                  letterSpacing: '1px',
-                  position: 'relative',
-                  zIndex: 1
+                  color: '#1E3A8A',
+                  lineHeight: '1.6',
+                  maxWidth: '600px',
+                  margin: '0 auto 1.5rem auto'
                 }}
-                onClick={() => {
-                  const element = document.getElementById('upcoming-classes')
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' })
-                  }
-                }}
-                onMouseEnter={(e) => {
-                  const target = e.target as HTMLButtonElement;
-                  target.style.background = 'linear-gradient(135deg, #F43F5E 0%, #EF4444 50%, #F87171 100%)';
-                  target.style.boxShadow = '0 12px 40px rgba(244, 63, 94, 0.7), 0 6px 20px rgba(244, 63, 94, 0.5)';
-                  target.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-                  // Pause floating animation and add hover scale
-                  target.style.animationPlayState = 'paused';
-                  target.style.transform = 'scale(1.05) translateZ(0)';
-                }}
-                onMouseLeave={(e) => {
-                  const target = e.target as HTMLButtonElement;
-                  target.style.background = 'linear-gradient(135deg, #DC2626 0%, #F43F5E 50%, #EF4444 100%)';
-                  target.style.boxShadow = '0 8px 30px rgba(244, 63, 94, 0.6), 0 4px 15px rgba(244, 63, 94, 0.4)';
-                  target.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                  // Resume floating animation and remove hover scale
-                  target.style.animationPlayState = 'running';
-                  target.style.transform = 'scale(1) translateZ(0)';
-                }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
               >
-                <span style={{ position: 'relative', zIndex: 2 }}>BOOK A FREE CLASS</span>
-              </button>
-            </motion.div>
+                Live online chess classes with certified instructors. Join 5,000+ kids learning strategy, focus, and critical thinking from home.
+              </motion.p>
+              
+              {/* Button */}
+              <motion.div 
+                className="mb-6 lg:mb-8"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: 0.4 }}
+              >
+                <button 
+                  className="font-lato font-bold uppercase transition-all duration-300 transform relative overflow-hidden group w-full md:w-auto text-xs md:text-sm lg:text-base px-6 py-3 md:px-8 md:py-4 float-button"
+                  style={{
+                    background: 'linear-gradient(135deg, #DC2626 0%, #F43F5E 50%, #EF4444 100%)',
+                    color: 'white',
+                    borderRadius: '50px',
+                    fontWeight: '800',
+                    border: '2px solid rgba(255, 255, 255, 0.2)',
+                    cursor: 'pointer',
+                    boxShadow: '0 8px 30px rgba(244, 63, 94, 0.6), 0 4px 15px rgba(244, 63, 94, 0.4)',
+                    letterSpacing: '1px',
+                    position: 'relative',
+                    zIndex: 1
+                  }}
+                  onClick={openModal}
+                  onMouseEnter={(e) => {
+                    const target = e.target as HTMLButtonElement;
+                    target.style.background = 'linear-gradient(135deg, #F43F5E 0%, #EF4444 50%, #F87171 100%)';
+                    target.style.boxShadow = '0 12px 40px rgba(244, 63, 94, 0.7), 0 6px 20px rgba(244, 63, 94, 0.5)';
+                    target.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                    target.style.animationPlayState = 'paused';
+                    target.style.transform = 'scale(1.05) translateZ(0)';
+                  }}
+                  onMouseLeave={(e) => {
+                    const target = e.target as HTMLButtonElement;
+                    target.style.background = 'linear-gradient(135deg, #DC2626 0%, #F43F5E 50%, #EF4444 100%)';
+                    target.style.boxShadow = '0 8px 30px rgba(244, 63, 94, 0.6), 0 4px 15px rgba(244, 63, 94, 0.4)';
+                    target.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                    target.style.animationPlayState = 'running';
+                    target.style.transform = 'scale(1) translateZ(0)';
+                  }}
+                >
+                  <span style={{ position: 'relative', zIndex: 2 }}>BOOK A FREE CLASS</span>
+                </button>
+              </motion.div>
+
+              {/* Stats - Bottom Left (Desktop only, moved to bottom on mobile) */}
+              <div className="hidden lg:flex items-center gap-12 mt-12">
+                <motion.div 
+                  className="text-left"
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 0.6 }}
+                  onAnimationComplete={() => setHasAnimated(true)}
+                >
+                  <h3 
+                    className="font-bebas-neue font-extrabold text-5xl"
+                    style={{ color: '#F43F5E' }}
+                  >
+                    {Math.floor(kidsCount).toLocaleString()}+
+                  </h3>
+                  <p 
+                    className="font-lato font-semibold text-sm uppercase"
+                    style={{ color: '#1E3A8A' }}
+                  >
+                    Kids Coached
+                  </p>
+                </motion.div>
+
+                <motion.div 
+                  className="text-left"
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 0.7 }}
+                >
+                  <h3 
+                    className="font-bebas-neue font-extrabold text-5xl"
+                    style={{ color: '#F43F5E' }}
+                  >
+                    {Math.floor(tournamentsCount)}+
+                  </h3>
+                  <p 
+                    className="font-lato font-semibold text-sm uppercase"
+                    style={{ color: '#1E3A8A' }}
+                  >
+                    Tournaments
+                  </p>
+                </motion.div>
+              </div>
             </div>
-          </div>
 
-          {/* Right Side Callouts */}
-          <div className="w-full md:absolute md:right-20 md:top-1/2 md:transform md:-translate-y-1/2 space-y-6 md:space-y-12 mt-8 md:mt-0 max-w-full md:max-w-[300px] px-4 md:px-0 text-center md:text-left">
+            {/* RIGHT SIDE - Hero Image with Circular Background */}
             <motion.div 
-              className="flex items-start justify-center md:justify-start" 
-              style={{ gap: '15px' }}
+              className="relative flex items-center justify-center order-2 lg:order-2"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, delay: 0.6 }}
-              onAnimationComplete={() => setHasAnimated(true)}
+              transition={{ duration: 0.6, delay: 0.3 }}
             >
+              {/* Circular Gradient Background - Behind the kid */}
               <div 
-                className="hidden md:flex rounded-full items-center justify-center flex-shrink-0"
-                style={{ 
-                  width: '36px', 
-                  height: '36px',
-                  backgroundColor: '#F43F5E'
+                className="absolute top-8 md:top-2 right-1/4 transform translate-x-1/4 w-[260px] h-[260px] md:w-[380px] md:h-[380px] lg:w-[480px] lg:h-[480px]"
+                style={{
+                  borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #f43f5e 0%, #f43f5e 60%, #1f3a8a 100%)',
+                  opacity: 0.85,
+                  zIndex: 0
                 }}
-              >
-                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                  <path fillRule="evenodd" d="M3 10a1 1 0 011-1h10a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div>
-                <h3 
-                  className="font-bebas-neue font-extrabold uppercase mb-2 text-2xl md:text-2xl"
-                  style={{ color: '#F43F5E' }}
-                >
-                  {Math.floor(kidsCount).toLocaleString()}+ KIDS RANKED & COACHED
-                </h3>
-                <p 
-                  className="font-lato font-normal text-base md:text-base"
-                  style={{ color: '#1E3A8A' }}
-                >
-                  Expert guidance helping thousands of children excel in chess competitions
-                </p>
+              />
+              
+              {/* Hero Image */}
+              <div className="relative z-10">
+                <img 
+                  src="/images/Hero.png" 
+                  alt="Young chess player"
+                  className="w-full h-auto max-w-xs md:max-w-md lg:max-w-lg"
+                  style={{
+                    filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.1))'
+                  }}
+                />
               </div>
             </motion.div>
 
-            <motion.div 
-              className="flex items-start justify-center md:justify-start" 
-              style={{ gap: '15px' }}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4, delay: 0.7 }}
-            >
-              <div 
-                className="hidden md:flex rounded-full items-center justify-center flex-shrink-0"
-                style={{ 
-                  width: '36px', 
-                  height: '36px',
-                  backgroundColor: '#F43F5E'
-                }}
+            {/* Mobile Stats - Show at bottom on mobile */}
+            <div className="lg:hidden flex justify-center gap-8 mt-6 order-4">
+              <motion.div 
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.6 }}
+                onAnimationComplete={() => setHasAnimated(true)}
               >
-                <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                  <path fillRule="evenodd" d="M3 10a1 1 0 011-1h10a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <div>
                 <h3 
-                  className="font-bebas-neue font-extrabold uppercase mb-2 text-2xl md:text-2xl"
+                  className="font-bebas-neue font-extrabold text-3xl md:text-4xl"
                   style={{ color: '#F43F5E' }}
                 >
-                  {Math.floor(tournamentsCount)}+ CHESS TOURNAMENTS
+                  {Math.floor(kidsCount).toLocaleString()}+
                 </h3>
                 <p 
-                  className="font-lato font-normal text-base md:text-base"
+                  className="font-lato font-semibold text-xs md:text-sm uppercase"
                   style={{ color: '#1E3A8A' }}
                 >
-                  Exciting competitive opportunities to showcase skills and build confidence
+                  Kids Coached
                 </p>
-              </div>
-            </motion.div>
+              </motion.div>
+
+              <motion.div 
+                className="text-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.7 }}
+              >
+                <h3 
+                  className="font-bebas-neue font-extrabold text-3xl md:text-4xl"
+                  style={{ color: '#F43F5E' }}
+                >
+                  {Math.floor(tournamentsCount)}+
+                </h3>
+                <p 
+                  className="font-lato font-semibold text-xs md:text-sm uppercase"
+                  style={{ color: '#1E3A8A' }}
+                >
+                  Tournaments
+                </p>
+              </motion.div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -2154,10 +2445,33 @@ const ContactSection = () => {
 
 // Main New HomePage Component
 const NewHomePage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [hasAutoOpened, setHasAutoOpened] = useState(false)
+
+  // Auto-open modal after 3 seconds (only once)
+  useEffect(() => {
+    if (!hasAutoOpened) {
+      const timer = setTimeout(() => {
+        setIsModalOpen(true)
+        setHasAutoOpened(true)
+      }, 3000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [hasAutoOpened])
+
+  const openModal = () => {
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
   return (
     <div className="min-h-screen bg-white">
-      <Header />
-      <HeroSection />
+      <Header openModal={openModal} />
+      <HeroSection openModal={openModal} />
       <FeatureStripSection />
       <WhyChooseUsSection />
       <TournamentsSection />
@@ -2168,6 +2482,30 @@ const NewHomePage = () => {
       <RegistrationSection />
       <ContactSection />
       <Footer />
+
+      {/* Registration Modal */}
+      <RegistrationModal isOpen={isModalOpen} onClose={closeModal} />
+
+       {/* Mobile Sticky Button - Only visible on mobile */}
+       <motion.button
+         className="md:hidden fixed bottom-0 left-0 right-0 w-full z-40 font-lato font-bold uppercase transition-all duration-300"
+         style={{
+           background: 'linear-gradient(135deg, #DC2626 0%, #F43F5E 50%, #EF4444 100%)',
+           color: 'white',
+           padding: '18px 24px',
+           borderRadius: '0',
+           fontWeight: '800',
+           boxShadow: '0 -4px 20px rgba(244, 63, 94, 0.4)',
+           letterSpacing: '1px'
+         }}
+         onClick={openModal}
+         initial={{ y: 100, opacity: 0 }}
+         animate={{ y: 0, opacity: 1 }}
+         transition={{ duration: 0.5, delay: 0.5 }}
+         whileTap={{ scale: 0.98 }}
+       >
+         BOOK FREE DEMO
+       </motion.button>
     </div>
   )
 }

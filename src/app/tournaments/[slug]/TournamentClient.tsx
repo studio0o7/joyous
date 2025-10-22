@@ -53,11 +53,48 @@ export default function TournamentClient({ tournament }: TournamentClientProps) 
     parentName: '',
     consent: false
   })
+  
+  const [files, setFiles] = useState<{
+    birthCertificate: File | null
+    photoID: File | null
+    paymentProof: File | null
+  }>({
+    birthCertificate: null,
+    photoID: null,
+    paymentProof: null
+  })
+  
+  const [fileErrors, setFileErrors] = useState<{
+    birthCertificate?: string
+    photoID?: string
+    paymentProof?: string
+  }>({})
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target
     const checkedValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
     setFormData(prev => ({ ...prev, [name]: checkedValue }))
+  }
+  
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>, fileType: 'birthCertificate' | 'photoID' | 'paymentProof') => {
+    const file = e.target.files?.[0]
+    
+    if (file) {
+      // Import validation function
+      const { validateFile } = await import('@/lib/form-submission')
+      const validation = validateFile(file)
+      
+      if (!validation.valid) {
+        setFileErrors(prev => ({ ...prev, [fileType]: validation.error }))
+        setFiles(prev => ({ ...prev, [fileType]: null }))
+      } else {
+        setFileErrors(prev => ({ ...prev, [fileType]: undefined }))
+        setFiles(prev => ({ ...prev, [fileType]: file }))
+      }
+    } else {
+      setFiles(prev => ({ ...prev, [fileType]: null }))
+      setFileErrors(prev => ({ ...prev, [fileType]: undefined }))
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -65,12 +102,20 @@ export default function TournamentClient({ tournament }: TournamentClientProps) 
     
     try {
       // Import form submission dynamically to avoid build issues
-      const { submitTournamentRegistration } = await import('@/lib/form-submission')
+      const { submitTournamentRegistration, processFiles } = await import('@/lib/form-submission')
+      
+      // Process uploaded files
+      const processedFiles = await processFiles({
+        birthCertificate: files.birthCertificate,
+        photoID: files.photoID,
+        paymentProof: files.paymentProof
+      })
       
       const result = await submitTournamentRegistration({
         tournamentId: tournament.slug,
         section: selectedSection,
-        ...formData
+        ...formData,
+        ...processedFiles
       })
 
       if (result.success) {
@@ -84,6 +129,16 @@ export default function TournamentClient({ tournament }: TournamentClientProps) 
           specialRequests: '',
           parentName: '',
           consent: false
+        })
+        setFiles({
+          birthCertificate: null,
+          photoID: null,
+          paymentProof: null
+        })
+        // Reset file inputs
+        const fileInputs = document.querySelectorAll('input[type="file"]')
+        fileInputs.forEach((input) => {
+          (input as HTMLInputElement).value = ''
         })
       } else {
         alert(`Registration failed: ${result.message}`)
@@ -437,6 +492,85 @@ export default function TournamentClient({ tournament }: TournamentClientProps) 
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all font-lato resize-none"
                         placeholder="Any dietary requirements, accessibility needs, etc."
                       />
+                    </div>
+
+                    {/* Document Uploads Section */}
+                    <div className="border-t border-gray-200 pt-6">
+                      <h4 className="font-bebas-neue font-extrabold text-lg mb-4 uppercase" style={{ color: '#1E3A8A' }}>
+                        Required Documents
+                      </h4>
+                      <p className="text-sm text-gray-600 font-lato mb-4">
+                        Please upload clear copies of the following documents (PDF, JPG, or PNG, max 5MB each)
+                      </p>
+
+                      {/* Birth Certificate */}
+                      <div className="mb-4">
+                        <label className="block font-lato font-bold text-gray-700 mb-2">
+                          Birth Certificate (Age Proof) *
+                        </label>
+                        <input
+                          type="file"
+                          accept=".pdf,.jpg,.jpeg,.png"
+                          onChange={(e) => handleFileChange(e, 'birthCertificate')}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all font-lato file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                        />
+                        {files.birthCertificate && (
+                          <p className="text-sm text-green-600 font-lato mt-1">
+                            ✓ {files.birthCertificate.name}
+                          </p>
+                        )}
+                        {fileErrors.birthCertificate && (
+                          <p className="text-sm text-red-600 font-lato mt-1">
+                            {fileErrors.birthCertificate}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Photo ID */}
+                      <div className="mb-4">
+                        <label className="block font-lato font-bold text-gray-700 mb-2">
+                          Photo ID
+                        </label>
+                        <input
+                          type="file"
+                          accept=".pdf,.jpg,.jpeg,.png"
+                          onChange={(e) => handleFileChange(e, 'photoID')}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all font-lato file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                        />
+                        {files.photoID && (
+                          <p className="text-sm text-green-600 font-lato mt-1">
+                            ✓ {files.photoID.name}
+                          </p>
+                        )}
+                        {fileErrors.photoID && (
+                          <p className="text-sm text-red-600 font-lato mt-1">
+                            {fileErrors.photoID}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Payment Proof */}
+                      <div>
+                        <label className="block font-lato font-bold text-gray-700 mb-2">
+                          Payment Proof
+                        </label>
+                        <input
+                          type="file"
+                          accept=".pdf,.jpg,.jpeg,.png"
+                          onChange={(e) => handleFileChange(e, 'paymentProof')}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all font-lato file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                        />
+                        {files.paymentProof && (
+                          <p className="text-sm text-green-600 font-lato mt-1">
+                            ✓ {files.paymentProof.name}
+                          </p>
+                        )}
+                        {fileErrors.paymentProof && (
+                          <p className="text-sm text-red-600 font-lato mt-1">
+                            {fileErrors.paymentProof}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
 

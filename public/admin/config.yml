@@ -172,6 +172,24 @@ collections:
         time_format: "HH:mm"
         format: "YYYY-MM-DD HH:mm"
 
+      - label: "Google Sheet ID"
+        name: "googleSheetId"
+        widget: "string"
+        required: false
+        hint: "The Google Sheet ID for this tournament's registrations (from sheet URL)"
+
+      - label: "Google Sheet URL"
+        name: "googleSheetUrl"
+        widget: "string"
+        required: false
+        hint: "Full URL to the Google Sheet for easy access"
+
+      - label: "Documents Folder ID"
+        name: "documentsFolderId"
+        widget: "string"
+        required: false
+        hint: "The Google Drive folder ID where documents are stored"
+
   # Settings collection for global site settings
   - name: "settings"
     label: "Site Settings"
