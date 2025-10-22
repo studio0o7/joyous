@@ -16,6 +16,7 @@
     "@sendgrid/mail": "^8.1.5",
     "@types/three": "^0.178.1",
     "framer-motion": "^11.0.0",
+    "googleapis": "^164.1.0",
     "gray-matter": "^4.0.3",
     "js-cookie": "^3.0.5",
     "leva": "^0.10.0",

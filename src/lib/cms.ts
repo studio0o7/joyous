@@ -43,6 +43,11 @@ export interface Tournament {
   contact?: TournamentContact
   metaDescription?: string
   date: string
+  // Google integration fields
+  googleSheetId?: string
+  googleSheetUrl?: string
+  documentsFolderId?: string
+  documentsFolderUrl?: string
   // Legacy support for existing components
   id?: number
 }

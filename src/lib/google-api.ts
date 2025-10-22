@@ -20,7 +20,7 @@ function getAuthClient(): JWT {
     parsedCredentials = typeof credentials === 'string' 
       ? JSON.parse(credentials) 
       : credentials;
-  } catch (error) {
+  } catch {
     throw new Error('Failed to parse GOOGLE_SERVICE_ACCOUNT_CREDENTIALS');
   }
   
