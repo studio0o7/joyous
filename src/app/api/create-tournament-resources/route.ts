@@ -1,13 +1,11 @@
 /**
  * Tournament Resources Creation API
  * Automatically creates Google Sheet and Drive folder for a tournament
+ * Note: File updates are handled by GitHub Actions, not here
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createTournamentSheet, createDocumentsFolder } from '@/lib/google-api';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
 
 export async function POST(request: NextRequest) {
   try {
@@ -32,31 +30,7 @@ export async function POST(request: NextRequest) {
     const folderResult = await createDocumentsFolder(tournamentTitle);
     console.log(`Folder created: ${folderResult.folderId}`);
     
-    // Update tournament markdown file with the IDs
-    const tournamentFilePath = path.join(
-      process.cwd(),
-      'content',
-      'tournaments',
-      `${tournamentSlug}.md`
-    );
-    
-    if (fs.existsSync(tournamentFilePath)) {
-      const fileContents = fs.readFileSync(tournamentFilePath, 'utf8');
-      const { data, content } = matter(fileContents);
-      
-      // Add Google integration fields
-      data.googleSheetId = sheetResult.sheetId;
-      data.googleSheetUrl = sheetResult.sheetUrl;
-      data.documentsFolderId = folderResult.folderId;
-      data.documentsFolderUrl = folderResult.folderUrl;
-      
-      // Write back to file
-      const updatedContent = matter.stringify(content, data);
-      fs.writeFileSync(tournamentFilePath, updatedContent, 'utf8');
-      
-      console.log(`Updated tournament file: ${tournamentFilePath}`);
-    }
-    
+    // Return the IDs - GitHub Actions will update the file
     return NextResponse.json({
       success: true,
       message: 'Tournament resources created successfully',
